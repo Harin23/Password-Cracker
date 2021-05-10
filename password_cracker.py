@@ -6,8 +6,8 @@ def crack_sha1_hash(hash, use_salts=False):
       for password in passFile:
         password=password.splitlines()[0]
         if hashlib.sha1(password.encode()).hexdigest() == hash:
-          print(password)
-      print('PASSWORD NOT IN DATABASE')
+          return(password)
+      return('PASSWORD NOT IN DATABASE')
     else:
       with open('known-salts.txt', 'r') as saltsFile:
         for salt in saltsFile:
@@ -17,6 +17,6 @@ def crack_sha1_hash(hash, use_salts=False):
             append = hashlib.sha1((password+salt).encode()).hexdigest()
             prepend = hashlib.sha1((salt+password).encode()).hexdigest()
             if append == hash or prepend == hash:
-              print(password)
+              return(password)
           passFile.seek(0)
-      print('PASSWORD NOT IN DATABASE')
+      return('PASSWORD NOT IN DATABASE')
